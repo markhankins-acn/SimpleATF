@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SimpleATF</title>
+    @include('layouts/_js')
     @include('layouts/_style')
 </head>
 <body>
