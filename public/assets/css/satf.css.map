@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";AAEA,IAAK;EACD,UAAU,EAAE,OAAO;EACnB,KAAK,ECmBQ,OAAO;EDlBpB,WAAW,EAAE,qBAAqB;;AAGtC,EAAG;EACC,aAAa,EAAE,GAAG;;AAEtB,IAAK;EACD,OAAO,EAAE,GAAG;;AAGhB,SAAU;EACN,UAAU,EAAE,KAAK;EACjB,KAAK,ECMQ,OAAO",
+"sources": ["../scss/satf.scss","../scss/flat_ui_colors.scss"],
+"names": [],
+"file": "satf.css"
+}

@@ -1,0 +1,17 @@
+/* Flat UI Colors */
+body {
+  background: #242424;
+  color: #ecf0f1;
+  font-family: Verdana, Arial, Times; }
+
+li {
+  margin-bottom: 8px; }
+
+code {
+  padding: 4px; }
+
+code.bash {
+  background: black;
+  color: #ecf0f1; }
+
+/*# sourceMappingURL=satf.css.map */

@@ -1,0 +1,19 @@
+@import "flat_ui_colors";
+
+body {
+    background: #242424;
+    color: $flat_ui_clouds;
+    font-family: Verdana, Arial, Times;
+}
+
+li {
+    margin-bottom: 8px;
+}
+code {
+    padding: 4px;
+}
+
+code.bash {
+    background: black;
+    color: $flat_ui_clouds;
+}
