@@ -16,11 +16,15 @@
             "app/controllers",
             "app/models",
             "app/database/migrations",
-            "app/database/seeds",
-            "app/tests/TestCase.php"
+            "app/database/seeds"
         ],
         "psr-4": {
             "SimpleATF\\": "app/satf/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleATF\\Tests\\": "app/tests/satf/"
         }
     },
     "scripts": {
