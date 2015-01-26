@@ -37,16 +37,11 @@ class ApiController extends Controller
         }
         $type = \Input::get('type');
 
-        $model = $this->getModel($type);
-        if ($model !== false) {
-            try {
-                $model->where('id', $id)->firstOrFail();
-                return $model;
-            } catch (Exception $e) {
-                return \Response::make('Unable to retrieve results', 404);
-            }
+        $item = $this->getItemById($type, $id);
+        if ($item === false) {
+            return \Response::make('Item not found', 404);
         } else {
-            return \Response::make('Unable to determine model', 404);
+            return $item;
         }
     }
 
@@ -99,6 +94,25 @@ class ApiController extends Controller
 
         } else {
             return false; // TODO Respond with Error
+        }
+    }
+
+    public function getItemById($type, $id)
+    {
+        try {
+            switch ($type) {
+                case 'user':
+                    $item = User::where('id', $id)->firstOrFail();
+                    break;
+                case 'project':
+                    $item = Project::where('id', $id)->firstOrFail();
+                    break;
+                default:
+                    break;
+            }
+            return $item;
+        } catch (Exception $e) {
+            return false;
         }
     }
 
