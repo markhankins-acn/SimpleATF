@@ -44,7 +44,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface
      */
     public function isValid($data)
     {
-        return Validator::make($data, $this->rules);
+        $valid = Validator::make($data, $this->rules);
+        if (!$valid) {
+            \Log::info($data);
+        }
+        return $valid;
     }
 
     /**
@@ -58,13 +62,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     {
         $user = new User();
         if ($user->isValid($data)) {
-            $data['password'] = Hash::make($data['password']);
+            $data['password'] = \Hash::make($data['password']);
             try {
-                self::create($data);
-                return true;
+                $item = self::create($data);
+                return $item;
             } catch (Exception $e) {
-                \Log::error("Unable to create user.");
-                return false;
+                $response = ['error' => $e->getMessage()];
+                return $response;
             }
         } else {
             \Log::error("User data failed validation.");
