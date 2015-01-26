@@ -10,7 +10,13 @@ class HomeController extends BaseController
             /* Check if user was created */
             $query = DB::select('select count(*) as count from users');
             if ($query[0]->count > 0) {
-                return View::make('projects/index');
+
+                $data = [
+                    'projects' => Project::all(),
+                ];
+
+                return View::make('projects/index', $data);
+
             } else {
                 return $this->register();
             }
