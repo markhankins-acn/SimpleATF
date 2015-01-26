@@ -1,45 +1,43 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class ApiController extends Controller
 {
     /**
      * Get Items by type
      *
-     * @param Request $request
-     *
      * @return bool|string
      */
-    public function getItems(Request $request)
+    public function getItems()
     {
         $required_fields = ['type'];
-        if (!$this->hasAllFields($request, $required_fields)) {
+        if (!$this->hasAllFields($required_fields)) {
             return false; // TODO Throw error
         }
-        $type = $request->input('type');
+        $type = Request::input('type');
         $model = $this->getModel($type);
         if ($model !== null) {
             try {
                 return $model->all();
             } catch (Exception $e) {
-                return ''; // TODO Respond with Error
+                return \Response::make('Unable to retrieve results', 404);
             }
         } else {
-            return 'Model is null'; // TODO Respond with Error
+            return \Response::make('Requested model has no results', 404);
         }
     }
 
-    public function getItem(Request $request)
+    public function getItem()
     {
         $required_fields = ['type', 'id'];
 
-        if (!$this->hasAllFields($request, $required_fields)) {
-            return false; // TODO Respond with Error
+        if (!$this->hasAllFields($required_fields)) {
+            return \Response::make('Bad Request', 404);
         }
 
-        $type = $request->input('type');
-        $id = $request->input('id');
+        $type = \Request::input('type');
+        $id =  \Request::input('id');
 
         $model = $this->getModel($type);
         if ($model !== false) {
@@ -47,22 +45,22 @@ class ApiController extends Controller
                 $model->where('id', $id)->firstOrFail();
                 return $model;
             } catch (Exception $e) {
-                return false; // TODO Respond with Error
+                return ''; // TODO Respond with Error
             }
         } else {
-            return false; // TODO Respond with Error
+            return ''; // TODO Respond with Error
         }
     }
 
-    public function postItem(Request $request)
+    public function postItem()
     {
         $required_fields = ['type', 'data'];
-        if (!$this->hasAllFields($request, $required_fields)) {
+        if (!$this->hasAllFields($this->request, $required_fields)) {
             return false; // TODO Respond with Error
         }
 
-        $type = $request->input('type');
-        $data = $request->input('data');
+        $type =  \Request::input('type');
+        $data =  \Request::input('data');
         $data = (array)json_decode($data);
 
         $model = $this->getModel($type);
@@ -70,22 +68,23 @@ class ApiController extends Controller
             if (method_exists($model, 'safeCreate')) {
                 $model::safeCreate($data);
             } else {
-                $model::create($data);
+                $item = $model::create($data);
+                Response::make("{$type} created with id: {$item->id}", 201);
             }
         }
     }
 
-    public function updateItem(Request $request)
+    public function updateItem()
     {
         $required_fields = ['type', 'id', 'data'];
 
-        if (!$this->hasAllFields($request, $required_fields)) {
+        if (!$this->hasAllFields($this->request, $required_fields)) {
             return false; // TODO Respond with Error
         }
 
-        $type = $request->input('type');
-        $id = $request->input('id');
-        $data = $request->input('data');
+        $type = Request::input('type');
+        $id = Request::input('id');
+        $data = Request::input('data');
 
         $model = $this->getModel($type);
         if ($model !== false) {
@@ -122,10 +121,10 @@ class ApiController extends Controller
      * @param  array   $fields  Fields to check.
      * @return boolean          If the item has all fields.
      */
-    public function hasAllFields($request, $fields)
+    public function hasAllFields($fields)
     {
         foreach ($fields as $field) {
-            if (!$request->has($field)) {
+            if (!Request::has($field)) {
                 return false;
             }
         }
