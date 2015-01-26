@@ -2,12 +2,18 @@
 
 class TestType
 {
-    public static function getTestTypes()
+    public $types = [
+        1 => ['id' => 1, 'name' => 'hasText'],
+        2 => ['id' => 2, 'name' => 'idHasText'],
+    ];
+
+    public function getTestTypes()
     {
-        $data = [
-            ['id' => 1, 'name' => 'hasText'],
-            ['id' => 2, 'name' => 'idHasText'],
-        ];
-        return $data;
+        return $this->types;
+    }
+
+    public function idToName($id)
+    {
+        return $this->types[$id]['name'];
     }
 }
