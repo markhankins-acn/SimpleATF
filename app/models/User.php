@@ -60,7 +60,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
         if ($user->isValid($data)) {
             $data['password'] = Hash::make($data['password']);
             try {
-                $user = self::create($data);
+                self::create($data);
                 return true;
             } catch (Exception $e) {
                 \Log::error("Unable to create user.");
