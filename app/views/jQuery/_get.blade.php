@@ -1,3 +1,4 @@
-$.get( "{{ $from }}", function( data ) {
-    return data;
-});
+$.get( "{{ $from }}", {{ $data }} )
+    .done(function( data ) {
+        return data;
+    });

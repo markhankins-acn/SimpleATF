@@ -33,18 +33,33 @@
     @if(isset($test_cases))
         <table class="table">
             <thead>
-            <tr><th>URL</th><th>Assertion</th><th>Expectation</th></tr>
+            <tr><th>ID</th><th>URL</th><th>Assertion</th><th>Expectation</th></tr>
             </thead>
             <tbody>
             @foreach($test_cases as $tc)
                 <tr>
+                    <td>{{ $tc->id }}</td>
                     <td><a href="/test_suite/{{ $tc->id }}">{{ $tc->testsuite->project->base_url }}{{ $tc->url }}</a></td>
-                    <td>{{ $tc->type_id }}</td>
+                    <td>{{ $TestType->idToName($tc->type_id) }}</td>
                     <td>{{ $tc->expectation }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+
+        <button class="btn-primary btn" onclick="runTests();">runTests</button>
+
+        <div id="testResults" style="display: none; height: 400px; width: 50%; position: absolute; left: 300px; top: 200px; background: #232323;">
+            <h1>Test Results</h1>
+            <table id="results">
+                <thead>
+                <tr><th>Test</th><th>Result</th></tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button class="btn btn-danger" onclick="$('#testResults').hide();">Close</button>
+        </div>
     @endif
 
     <script>
@@ -78,6 +93,32 @@
             ];
             ?>
             @include('jQuery/_post', $post_data)
+        }
+
+        function runTests()
+        {
+            $('#testResults').show();
+            var trs = $('tbody tr');
+            $.each(trs, function(index, elem) {
+                var cols = $(this).find("td");
+                var testcase_id = cols[0].innerHTML;
+                var data = {
+                    'testcase_id': testcase_id
+                };
+                <?php
+                $get_data = [
+                    'from' => '/runtest',
+                    'data' => 'data'
+                ];
+                ?>
+                $.get( "/runtest", data )
+                    .done(function( response ) {
+                        var text = response.responseText;
+                        console.log(text);
+                });
+
+                <!--include('jQuery/_get', $get_data)-->
+            });
         }
     </script>
 @stop

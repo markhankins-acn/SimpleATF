@@ -11,3 +11,6 @@ Route::get('/project/{id}', ['as' => 'project.view', 'uses' => 'ProjectControlle
 
 /* Test Suites */
 Route::get('/test_suite/{id}', ['as' => 'suite.view', 'uses' => 'TestSuiteController@show']);
+
+/* Test Cases */
+Route::get('/runtest', ['as' => 'suite.view', 'uses' => 'TestController@runTest']);

@@ -1,6 +1,7 @@
 <?php
 $scripts = [
         'jquery-2.1.1.min.js',
+        'satf.js',
 ];
 ?>
 @foreach($scripts as $js)
