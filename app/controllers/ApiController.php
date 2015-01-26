@@ -133,6 +133,9 @@ class ApiController extends Controller
             case 'project':
                 $model = new Project();
                 break;
+            case 'testsuite':
+                $model = new TestSuite();
+                break;
             default:
                 $model = null;
                 break;
@@ -171,6 +174,13 @@ class ApiController extends Controller
                     'name' => \Input::get('name'),
                     'description' => \Input::get('description'),
                     'base_url' => \Input::get('base_url'),
+                ];
+                break;
+            case 'testsuite':
+                $data = [
+                    'name' => \Input::get('name'),
+                    'description' => \Input::get('description'),
+                    'project_id' => \Input::get('project_id'),
                 ];
                 break;
             default:
