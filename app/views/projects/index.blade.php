@@ -19,9 +19,14 @@
 </div>
 @if(isset($projects))
     <table class="table">
+    <thead>
+    <tr><th>Project</th><th>Base URL</th><th>Description</th></tr>
+    </thead>
+    <tbody>
     @foreach($projects as $p)
-        <tr>{{ $p->name }}</tr>
+        <tr><td><a href="project/{{ $p->id }}">{{ $p->name }}</a></td><td>{{ $p->base_url }}</td><td>{{ $p->description }}</td></tr>
     @endforeach
+    </tbody>
     </table>
 @endif
 @stop
@@ -37,7 +42,8 @@ function createProject()
     var data = {
         "name": $('#name').val(),
         "base_url": $('#base_url').val(),
-        "description": $('#description').val()
+        "description": $('#description').val(),
+        "type": 'project'
     }
 
     <?php
