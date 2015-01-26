@@ -19,4 +19,9 @@ class TestSuite extends Eloquent
     protected $hidden = [];
 
     protected $fillable = ['name', 'description', 'project_id'];
+
+    public function project()
+    {
+        return $this->belongsTo('Project');
+    }
 }
