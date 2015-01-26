@@ -17,6 +17,7 @@ class CreateTestcasesTable extends Migration
             $table->increments('id');
             $table->string('expectation');
             $table->string('url')->nullable();
+            $table->string('selector')->nullable();
             $table->integer('testsuite_id');
             $table->integer('type_id');
             $table->rememberToken();
