@@ -183,6 +183,16 @@ class ApiController extends Controller
                     'project_id' => \Input::get('project_id'),
                 ];
                 break;
+            case 'testcase':
+                $data = [
+                    'selector' => \Input::get('selector'),
+                    'expectation' => \Input::get('expectation'),
+                    'selector' => \Input::get('selector'),
+                    'url' => \Input::get('url'),
+                    'testsuite_id' => \Input::get('testsuite_id'),
+                    'type_id' => \Input::get('type_id')
+                ];
+                break;
             default:
                 $data = null;
                 break;
