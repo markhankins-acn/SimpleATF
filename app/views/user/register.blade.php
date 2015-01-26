@@ -25,14 +25,18 @@
     <script>
         function createUser()
         {
-            var data = {};
-            $.each([ "name", "password", "email", "password_confirmation" ], function(field) {
-                data.field = $('#' + field).val();
-            });
+            var data = {
+                'type': 'user',
+                'name': $('#name').val(),
+                'email': $('#email').val(),
+                'password': $('#password').val()
+            };
+
+            data.type = 'user';
 
             <?php
                 $post_data = [
-                    'to' => 'users',
+                    'to' => 'post',
                     'data' => 'data',
                     'success' => 'function() {
                         window.location = "/";
