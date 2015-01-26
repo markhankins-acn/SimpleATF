@@ -97,6 +97,14 @@ class ApiController extends Controller
         }
     }
 
+    /**
+     * Helper function to get item by id.
+     *
+     * @param string  $type Type.
+     * @param integer $id   Id.
+     *
+     * @return bool
+     */
     public function getItemById($type, $id)
     {
         try {
@@ -159,7 +167,11 @@ class ApiController extends Controller
                 ];
                 break;
             case 'project':
-                $data = [];
+                $data = [
+                    'name' => \Input::get('name'),
+                    'description' => \Input::get('description'),
+                    'base_url' => \Input::get('base_url'),
+                ];
                 break;
             default:
                 $data = null;
