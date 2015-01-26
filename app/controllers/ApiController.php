@@ -136,6 +136,9 @@ class ApiController extends Controller
             case 'testsuite':
                 $model = new TestSuite();
                 break;
+            case 'testcase':
+                $model = new TestCase();
+                break;
             default:
                 $model = null;
                 break;
