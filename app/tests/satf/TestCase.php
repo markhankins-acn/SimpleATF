@@ -2,6 +2,7 @@
 
 namespace SimpleATF\Tests;
 
+Use Illuminate\Database\Eloquent;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 
 class TestCase extends IlluminateTestCase
