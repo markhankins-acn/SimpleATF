@@ -17,4 +17,6 @@ class TestSuite extends Eloquent
      * @var array
      */
     protected $hidden = [];
+
+    protected $fillable = ['name', 'description', 'project_id'];
 }
