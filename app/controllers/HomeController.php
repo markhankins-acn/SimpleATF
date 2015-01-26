@@ -10,7 +10,7 @@ class HomeController extends BaseController
             /* Check if user was created */
             $query = DB::select('select count(*) as count from users');
             if ($query[0]->count > 0) {
-                return View::make('dashboard');
+                return View::make('projects/index');
             } else {
                 return View::make('user/register');
             }
