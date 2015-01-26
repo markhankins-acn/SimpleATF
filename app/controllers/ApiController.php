@@ -13,9 +13,9 @@ class ApiController extends Controller
     {
         $required_fields = ['type'];
         if (!$this->hasAllFields($required_fields)) {
-            return false; // TODO Throw error
+            return \Response::make('Required fields missing', 404);
         }
-        $type = Request::input('type');
+        $type = \Request::input('type');
         $model = $this->getModel($type);
         if ($model !== null) {
             try {
@@ -45,31 +45,36 @@ class ApiController extends Controller
                 $model->where('id', $id)->firstOrFail();
                 return $model;
             } catch (Exception $e) {
-                return ''; // TODO Respond with Error
+                return \Response::make('Unable to retrieve results', 404);
             }
         } else {
-            return ''; // TODO Respond with Error
+            return \Response::make('Unable to determine model', 404);
         }
     }
 
     public function postItem()
     {
-        $required_fields = ['type', 'data'];
-        if (!$this->hasAllFields($this->request, $required_fields)) {
-            return false; // TODO Respond with Error
+        $required_fields = ['type'];
+        if (!$this->hasAllFields($required_fields)) {
+            return \Response::make('Item does not have the required type.', 404);
         }
 
-        $type =  \Request::input('type');
-        $data =  \Request::input('data');
-        $data = (array)json_decode($data);
+        $type =  \Input::get('type');
+        \Log::debug(Input::get('name'));
+        $data = $this->buildModelData($type);
 
         $model = $this->getModel($type);
         if ($model !== false) {
             if (method_exists($model, 'safeCreate')) {
-                $model::safeCreate($data);
+                $item = $model::safeCreate($data);
             } else {
                 $item = $model::create($data);
-                Response::make("{$type} created with id: {$item->id}", 201);
+            }
+
+            if (is_array($item) && array_key_exists('error', $item)) {
+                return \Response::make($item['error'], 500);
+            } else {
+                return \Response::make("{$type} created with id: {$item->id}", 201);
             }
         }
     }
@@ -82,9 +87,9 @@ class ApiController extends Controller
             return false; // TODO Respond with Error
         }
 
-        $type = Request::input('type');
-        $id = Request::input('id');
-        $data = Request::input('data');
+        $type = \Request::input('type');
+        $id = \Request::input('id');
+        $data = \Request::input('data');
 
         $model = $this->getModel($type);
         if ($model !== false) {
@@ -117,17 +122,37 @@ class ApiController extends Controller
 
     /**
      * [hasAllFields description]
-     * @param  object  $request Illuminate request object.
      * @param  array   $fields  Fields to check.
      * @return boolean          If the item has all fields.
      */
     public function hasAllFields($fields)
     {
         foreach ($fields as $field) {
-            if (!Request::has($field)) {
+            if (!\Input::has($field)) {
+                \Log::debug($field);
                 return false;
             }
         }
         return true;
+    }
+
+    public function buildModelData($type)
+    {
+        switch ($type) {
+            case 'user':
+                $data = [
+                    'name' => \Input::get('name'),
+                    'password' => \Input::get('password'),
+                    'email' => \Input::get('email')
+                ];
+                break;
+            case 'project':
+                $data = [];
+                break;
+            default:
+                $data = null;
+                break;
+        }
+        return $data;
     }
 }
