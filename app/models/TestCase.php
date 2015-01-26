@@ -17,4 +17,11 @@ class TestCase extends Eloquent
      * @var array
      */
     protected $hidden = [];
+
+    protected $fillable = ['selector', 'expectation', 'type_id', 'url', 'testsuite_id'];
+
+    public function testsuite()
+    {
+        return $this->belongsTo('testsuite');
+    }
 }
