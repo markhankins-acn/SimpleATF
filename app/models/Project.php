@@ -11,6 +11,8 @@ class Project extends Eloquent
      */
     protected $table = 'projects';
 
+    protected $fillable = ['name', 'description', 'base_url'];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
