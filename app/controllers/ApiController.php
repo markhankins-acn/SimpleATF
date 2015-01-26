@@ -28,16 +28,14 @@ class ApiController extends Controller
         }
     }
 
-    public function getItem()
+    public function getItem($id)
     {
-        $required_fields = ['type', 'id'];
+        $required_fields = ['type'];
 
         if (!$this->hasAllFields($required_fields)) {
             return \Response::make('Bad Request', 404);
         }
-
-        $type = \Request::input('type');
-        $id =  \Request::input('id');
+        $type = \Input::get('type');
 
         $model = $this->getModel($type);
         if ($model !== false) {
