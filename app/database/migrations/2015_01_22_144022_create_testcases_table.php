@@ -15,9 +15,10 @@ class CreateTestcasesTable extends Migration
         Schema::create('project_testcases', function(Blueprint $table)
         {
             $table->increments('id');
+            $table->string('expectation');
+            $table->string('url')->nullable();
             $table->integer('testsuite_id');
             $table->integer('type_id');
-            $table->string('expectation');
             $table->rememberToken();
             $table->timestamps();
         });
