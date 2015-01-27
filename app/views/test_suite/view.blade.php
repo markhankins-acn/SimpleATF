@@ -55,7 +55,7 @@
                 <thead>
                 <tr><th>Test</th><th>Result</th></tr>
                 </thead>
-                <tbody>
+                <tbody id="testResultData">
                 </tbody>
             </table>
             <button class="btn btn-danger" onclick="$('#testResults').hide();">Close</button>
@@ -95,9 +95,26 @@
             @include('jQuery/_post', $post_data)
         }
 
+        function clearPreviousTests()
+        {
+            $('#testResultData').html('');
+        }
+
+        function addResult(url, test, expectation, result)
+        {
+            var html = $('#testResultData').html();
+            var newrow = '<tr class="' + result + '"><td>'+ url +'</td><td>'+ test +'</td><td>'+ expectation +'</td><td>'+ result +'</td></tr>';
+            $('#testResultData').html(html + newrow);
+        }
+
         function runTests()
         {
+            // remove previous results
+            clearPreviousTests();
+
+            // show test results screen.
             $('#testResults').show();
+
             var trs = $('tbody tr');
             $.each(trs, function(index, elem) {
                 var cols = $(this).find("td");
@@ -111,11 +128,25 @@
                     'data' => 'data'
                 ];
                 ?>
-                $.get( "/runtest", data )
-                    .done(function( response ) {
-                        var text = response.responseText;
-                        console.log(text);
+
+                $.getJSON( "/runtest", data).done( function( json ) {
+                    // append new results
+                    url = json.url;
+                    result = json.result;
+                    assertion = json.assertion;
+                    expectation = json.expectation;
+                    addResult(url, assertion, expectation, result)
+
+                    console.log( json );
                 });
+
+                /*
+                $.get( "/runtest", data )
+                    .done(function( index, response ) {
+                        var text = response.responseText;
+                        console.log(response);
+                });
+                */
 
                 <!--include('jQuery/_get', $get_data)-->
             });
