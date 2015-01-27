@@ -51,9 +51,9 @@
 
         <div id="testResults" style="display: none; height: 400px; width: 50%; position: absolute; left: 300px; top: 200px; background: #232323;">
             <h1>Test Results</h1>
-            <table id="results">
+            <table class="table" id="results">
                 <thead>
-                <tr><th>Test</th><th>Result</th></tr>
+                <tr><th>URL</th><th>Test</th><th>Expectation</th><th>Result</th></tr>
                 </thead>
                 <tbody id="testResultData">
                 </tbody>
