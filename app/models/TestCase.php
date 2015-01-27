@@ -24,4 +24,13 @@ class TestCase extends Eloquent
     {
         return $this->belongsTo('testsuite');
     }
+
+    public function buildUrl()
+    {
+        $test_url = $this->url;
+        $project = $this->testsuite->project;
+        $base_url = $project->base_url;
+
+        return $base_url . $test_url;
+    }
 }
