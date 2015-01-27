@@ -14,4 +14,12 @@ code.bash {
   background: black;
   color: #ecf0f1; }
 
+.false {
+  background: #ff5f7a;
+  color: #610111; }
+
+.true {
+  background: #bfffbf;
+  color: #116001; }
+
 /*# sourceMappingURL=satf.css.map */
