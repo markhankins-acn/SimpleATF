@@ -160,6 +160,10 @@
                     $('#selector_group').show();
                     $('#expectation_group').show();
                     break;
+                case 'hasStatusCode':
+                    $('#selector_group').hide();
+                    $('#expectation_group').show();
+                    break;
                 default:
                     break;
             }
