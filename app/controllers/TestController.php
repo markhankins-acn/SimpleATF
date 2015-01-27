@@ -12,14 +12,15 @@ class TestController extends BaseController
         $test = TestCase::where('id', $testcase_id)->firstOrFail();
 
         $testType = new TestType();
-        $testType->idToName($test->type_id);
+        $testclass = $testType->idToName($test->type_id);
 
         /* Run the test */
-        $result = $this->test($test, $testType);
+        $result = $this->test($test, $testclass);
+        $result_json = json_encode(['url' => $test->buildUrl(), 'assertion' => $testclass, 'expectation' => $test->expectation, 'result' => $result]);
         if ($result === false) {
-            return \Response::make("Fail", 400);
+            return \Response::make($result_json, 200);
         } else {
-            return \Response::make("Success", 200);
+            return \Response::make($result_json, 200);
         }
     }
 
@@ -27,11 +28,11 @@ class TestController extends BaseController
     {
         switch ($type) {
             case 'hasText':
-                $class = new SimpleATF\Tests\hasText();
-                return $class->test($test->url, $test->expectation);
+                $class = new SimpleATF\Tests\hasText($test);
+                return $class->test();
                 break;
             case 'idHasText':
-                return new SimpleATF\Tests\hasText();
+                return new SimpleATF\Tests\idHasText($test);
                 break;
         }
     }
