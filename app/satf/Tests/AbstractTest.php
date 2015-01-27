@@ -11,7 +11,7 @@ abstract class AbstractTest
         return $this->guzzle($url);
     }
 
-    public function curl($url)
+    private function curl($url)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -22,7 +22,7 @@ abstract class AbstractTest
         return $content;
     }
 
-    public function guzzle($url, $json = false)
+    private function guzzle($url, $json = false)
     {
         $client = new Client();
         $response = $client->get($url);
