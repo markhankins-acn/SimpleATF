@@ -6,21 +6,21 @@
     <div id="create_test_case" style="display: none;">
         <h2>Create TestCase</h2>
         <div class="form-group">
-            <label for="type">URL</label><input class="form-control" id="name" type="text" placeholder="Leave blank to test base url or enter a URL eg /posts or post/1" />
-        </div>
-        <div class="form-group">
-            <label for="type">Expectation</label><input class="form-control" id="expectation" type="text" />
-        </div>
-        <div class="form-group">
-            <label for="type">Selector</label><input class="form-control" id="selector" type="text" placeholder="If using an ID or CSS based rule, enter a selector." />
-        </div>
-        <div class="form-group">
             <label for="description">Test</label>
             <select id="type_id" class="form-control">
                 @foreach($test_types as $t)
                     <option id="{{ $t['id'] }}">{{ $t['name'] }}</option>
                 @endforeach
             </select>
+        </div>
+        <div id="url_group" class="form-group">
+            <label for="type">URL (Optional)</label><input class="form-control" id="url" type="text" placeholder="Leave blank to test base url or enter a URL eg /posts or post/1" />
+        </div>
+        <div id="expectation_group" class="form-group">
+            <label for="type">Expectation</label><input class="form-control" id="expectation" type="text" />
+        </div>
+        <div id="selector_group" class="form-group">
+            <label for="type">Selector (Optional)</label><input class="form-control" id="selector" type="text" placeholder="For ID simple type the id as text (no hash), for json use comma seperated values." />
         </div>
 
         <input id="testsuite_id" type="hidden" value="{{ $test_suite->id }}" />
@@ -65,6 +65,7 @@
     <script>
         function toggleCreate()
         {
+            disableUselessFields();
             $('#create_test_case').toggle( "slow" );
         }
 
@@ -139,17 +140,29 @@
 
                     console.log( json );
                 });
-
-                /*
-                $.get( "/runtest", data )
-                    .done(function( index, response ) {
-                        var text = response.responseText;
-                        console.log(response);
-                });
-                */
-
-                <!--include('jQuery/_get', $get_data)-->
             });
+        }
+
+        /* Disable Un-required Fields when testType is changed */
+        $('#type_id').change(function() {
+            disableUselessFields()
+        });
+
+        function disableUselessFields()
+        {
+            var testType = $('#type_id').val();
+            switch (testType) {
+                case 'hasText':
+                    $('#selector_group').hide();
+                    $('#expectation_group').show();
+                    break;
+                case 'idHasText':
+                    $('#selector_group').show();
+                    $('#expectation_group').show();
+                    break;
+                default:
+                    break;
+            }
         }
     </script>
 @stop
