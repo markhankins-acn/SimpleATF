@@ -8,15 +8,33 @@ namespace SimpleATF\Tests;
  *
  * @package SimpleATF\Tests
  */
-class hasText implements TestInterface
+class hasText extends AbstractTest implements TestInterface
 {
-    public function test($target, $expectation)
+    public $test;
+
+    public function __construct($test)
     {
-        $result = strpos($target, $expectation);
+        $this->test = $test;
+    }
+
+    public function test()
+    {
+        $test = $this->test;
+        $result = strpos($this->getResponse(), $test->expectation);
         if ($result === false) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public function getResponse()
+    {
+        $test = $this->test;
+        $url = $test->buildUrl();
+        \Log::info($url);
+        $data = $this->getdata($url);
+        \Log::info($data);
+        return $data;
     }
 }

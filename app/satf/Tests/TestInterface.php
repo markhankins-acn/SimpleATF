@@ -4,5 +4,5 @@ namespace SimpleATF\Tests;
 
 interface TestInterface
 {
-    public function test($target, $expectation);
+    public function test();
 }
