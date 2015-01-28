@@ -3,9 +3,22 @@
 namespace SimpleATF\Tests;
 
 use GuzzleHttp\Client;
+use Exception;
 
 abstract class AbstractTest
 {
+    public function getResponse()
+    {
+        try {
+            $test = $this->test;
+            $url = $test->buildUrl();
+            $data = $this->getdata($url);
+            return $data;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function getdata($url)
     {
         return $this->guzzle($url);

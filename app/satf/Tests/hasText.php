@@ -27,14 +27,4 @@ class hasText extends AbstractTest implements TestInterface
             return true;
         }
     }
-
-    public function getResponse()
-    {
-        $test = $this->test;
-        $url = $test->buildUrl();
-        \Log::info($url);
-        $data = $this->getdata($url);
-        \Log::info($data);
-        return $data;
-    }
 }
