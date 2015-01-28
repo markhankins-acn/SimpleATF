@@ -137,8 +137,6 @@
                     assertion = json.assertion;
                     expectation = json.expectation;
                     addResult(url, assertion, expectation, result)
-
-                    console.log( json );
                 });
             });
         }
