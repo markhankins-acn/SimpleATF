@@ -27,6 +27,26 @@ class JsonIteratorTest extends TestCase
         assert($value === true);
     }
 
+    public function testItFindsKeyInArray()
+    {
+        $object = new \stdClass();
+        $object->metadata = ['author' => 'PrivateSniper'];
+
+        $iterator = new JsonIterator();
+        $value = $iterator->getKeyValue($object, 'metadata,author');
+        assert($value === true);
+    }
+
+    public function testKeyExistsIsTrueForKeyInArray()
+    {
+        $object = new \stdClass();
+        $object->metadata = ['author' => 'PrivateSniper'];
+
+        $iterator = new JsonIterator();
+        $value = $iterator->keyExists($object, 'metadata,author');
+        assert($value === true);
+    }
+
     public function testKeyExistsReturnsFalseForInvalidKey()
     {
         $object = new \stdClass();
