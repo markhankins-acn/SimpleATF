@@ -7,42 +7,55 @@ use Exception;
 
 abstract class AbstractTest
 {
+    /**
+     * Guzzle Http Client.
+     * @var Client
+     */
+    public $guzzle;
+    /**
+     * Test Case.
+     * @var
+     */
+    public $test;
+
+    public function __construct($test)
+    {
+        $this->guzzle = new Client();
+        $this->test = $test;
+    }
+
+    public function getStatusCode()
+    {
+        $response = $this->getResponse();
+        return $response->getStatusCode();
+    }
+
+    public function getBody()
+    {
+        $response = $this->getResponse();
+        return $response->getBody();
+    }
+
+    public function getJson()
+    {
+        $response = $this->getResponse();
+        return $response->json();
+    }
+
     public function getResponse()
     {
-        try {
-            $test = $this->test;
-            $url = $test->buildUrl();
-            $data = $this->getdata($url);
-            return $data;
-        } catch (Exception $e) {
-            return false;
-        }
+        $url = $this->getUrl();
+        $response = $this->guzzle->get($url);
+        return $response;
     }
 
-    public function getdata($url)
+    /**
+     * Get the URL from the current testcase.
+     * @return mixed
+     */
+    public function getUrl()
     {
-        return $this->guzzle($url);
-    }
-
-    private function curl($url)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $content = curl_exec ($ch);
-        curl_close ($ch);
-        return $content;
-    }
-
-    private function guzzle($url, $json = false)
-    {
-        $client = new Client();
-        $response = $client->get($url);
-        if ($json) {
-            $json = $response->json();
-            return $json;
-        }
-        return $response->getBody();
+        $test = $this->test;
+        return $test->buildUrl();
     }
 }
