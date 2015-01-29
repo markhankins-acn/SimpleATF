@@ -36,7 +36,8 @@
 
             <?php
                 $post_data = [
-                    'to' => 'post',
+//                    'to' => '/ac2/public/post',
+                    'to' => URL::to('/post'),
                     'data' => 'data',
                     'success' => 'function() {
                         window.location = "/";
