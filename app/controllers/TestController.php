@@ -16,7 +16,7 @@ class TestController extends BaseController
 
         /* Run the test */
         $result = $this->test($test, $testclass);
-        $result_json = json_encode(['url' => $test->buildUrl(), 'assertion' => $testclass, 'expectation' => $test->expectation, 'result' => $result]);
+        $result_json = json_encode(['url' => $test->buildUrl(), 'assertion' => $testclass, 'selector' => $test->selector, 'expectation' => $test->expectation, 'result' => $result]);
         if ($result === false) {
             return \Response::make($result_json, 200);
         } else {
@@ -35,6 +35,12 @@ class TestController extends BaseController
                 return $class->test();
             case 'hasStatusCode':
                 $class = new SimpleATF\Tests\hasStatusCode($test);
+                return $class->test();
+            case 'hasJsonKey':
+                $class = new SimpleATF\Tests\hasJsonKey($test);
+                return $class->test();
+            case 'hasJson':
+                $class = new SimpleATF\Tests\hasJson($test);
                 return $class->test();
         }
     }
