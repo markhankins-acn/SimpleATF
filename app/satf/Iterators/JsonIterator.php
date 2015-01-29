@@ -2,6 +2,8 @@
 
 namespace SimpleATF\Iterators;
 
+use Exception;
+
 class JsonIterator
 {
     /**
@@ -14,37 +16,57 @@ class JsonIterator
      */
     public function getKeyValue($data, $key)
     {
-        $object = is_object($data) ? $data : json_decode($data);
-        $parsed = explode(',', $key);
+        try {
+            $value = $this->findKey($data, $key);
+            return $value;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 
-        $check = $object;
+    public function keyExists($data, $key)
+    {
+        try {
+            $this->findKey($data, $key);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Finds a key and returns it's value, or raises an Exception
+     *
+     * @param $data
+     * @param $key
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    private function findKey($data, $key)
+    {
+        $array = $this->checkData($data);
+        $parsed = explode(',', $key);
+        $check = $array;
+
         foreach ($parsed as $key) {
             if (isset($check->$key)) {
                 $check = $check->$key;
-            } else if (isset($check['key'])) {
-                $check = $check['key'];
+            } elseif (array_key_exists($key, $check)) {
+                $check = $check[$key];
             } else {
-                throw new \Exception('Key '.$key.' does not exist');
+                throw new Exception('Key '.$key.' does not exist');
             }
         }
         return $check;
     }
 
-    public function keyExists($data, $key)
+    private function checkData($data)
     {
-        $object = is_object($data) ? $data : json_decode($data);
-        $parsed = explode(',', $key);
-
-        $check = $object;
-        foreach ($parsed as $key) {
-            if (isset($check->$key)) {
-                $check = $check->$key;
-            } else if (array_key_exists($key, $check)) {
-                $check = $check['key'];
-            } else {
-                return false;
-            }
+        if (is_array($data) || is_object($data)) {
+            return $data;
+        } else {
+            return json_decode($data);
         }
-        return true;
     }
 }
