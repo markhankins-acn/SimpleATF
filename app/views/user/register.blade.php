@@ -36,7 +36,6 @@
 
             <?php
                 $post_data = [
-//                    'to' => '/ac2/public/post',
                     'to' => URL::to('/post'),
                     'data' => 'data',
                     'success' => 'function() {
