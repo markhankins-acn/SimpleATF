@@ -17,10 +17,10 @@
             <label for="type">URL (Optional)</label><input class="form-control" id="url" type="text" placeholder="Leave blank to test base url or enter a URL eg /posts or post/1" />
         </div>
         <div id="expectation_group" class="form-group">
-            <label for="type">Expectation</label><input class="form-control" id="expectation" type="text" />
+            <label id="expectation_label" for="expectation">Expectation</label><input class="form-control" id="expectation" type="text" />
         </div>
         <div id="selector_group" class="form-group">
-            <label for="type">Selector (Optional)</label><input class="form-control" id="selector" type="text" placeholder="For ID simple type the id as text (no hash), for json use comma seperated values." />
+            <label id="selector_label" for="selector">Selector (Optional)</label><input class="form-control" id="selector" type="text" placeholder="For ID simple type the id as text (no hash), for json use comma seperated values." />
         </div>
 
         <input id="testsuite_id" type="hidden" value="{{ $test_suite->id }}" />
@@ -152,15 +152,25 @@
             switch (testType) {
                 case 'hasText':
                     $('#selector_group').hide();
-                    $('#expectation_group').show();
+                    $('#expectation_label').html('Text');
                     break;
                 case 'idHasText':
                     $('#selector_group').show();
-                    $('#expectation_group').show();
+                    $('#expectation_label').html('Text');
+                    $('#selector_label').html('CSS ID');
                     break;
                 case 'hasStatusCode':
                     $('#selector_group').hide();
-                    $('#expectation_group').show();
+                    $('#expectation_label').html('Status Code');
+                    break;
+                case 'hasJson':
+                    $('#selector_group').show();
+                    $('#expectation_label').html('JSON Value');
+                    $('#selector_label').html('JSON Pattern');
+                    break;
+                case 'hasJsonKey':
+                    $('#selector_group').hide();
+                    $('#expectation_label').html('JSON Key');
                     break;
                 default:
                     break;
