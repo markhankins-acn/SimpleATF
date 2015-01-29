@@ -10,21 +10,14 @@ namespace SimpleATF\Tests;
  */
 class hasText extends AbstractTest implements TestInterface
 {
-    public $test;
-
-    public function __construct($test)
-    {
-        $this->test = $test;
-    }
-
+    /**
+     * Run the test.
+     * @return bool
+     */
     public function test()
     {
         $test = $this->test;
         $result = strpos($this->getResponse(), $test->expectation);
-        if ($result === false) {
-            return false;
-        } else {
-            return true;
-        }
+        return $result !== false;
     }
 }
