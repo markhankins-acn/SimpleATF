@@ -30,10 +30,8 @@ class TestController extends BaseController
             case 'hasText':
                 $class = new SimpleATF\Tests\hasText($test);
                 return $class->test();
-                break;
             case 'idHasText':
                 return new SimpleATF\Tests\idHasText($test);
-                break;
         }
     }
 }
