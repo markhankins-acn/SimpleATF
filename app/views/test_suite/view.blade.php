@@ -49,7 +49,7 @@
 
         <button class="btn-primary btn" onclick="runTests();">runTests</button>
 
-        <div id="testResults" style="display: none; height: 400px; width: 50%; position: absolute; left: 300px; top: 200px; background: #232323;">
+        <div id="testResults" style="display: none; height: 400px; width: 50%; position: absolute; left: 300px; top: 200px; background: #232323; padding: 8px; border: 2px solid #484848; border-radius: 8px;">
             <h1>Test Results</h1>
             <table class="table" id="results">
                 <thead>
